@@ -8,28 +8,24 @@
   "bin": {
     "jsf": "bin/gen.cjs"
   },
-  "main": "dist/index.cjs",
+  "main": "dist/main.cjs",
   "module": "dist/main.mjs",
-  "unpkg": "dist/bundle.js",
+  "browser": "dist/main.iife.js",
+  "unpkg": "dist/bundle.cjs",
   "exports": {
     ".": {
       "import": "./dist/main.mjs",
-      "require": "./dist/main.cjs",
-      "browser": "./dist/main.iife.js"
-    },
-    "./esm": {
-      "import": "./index.js"
+      "require": "./dist/main.cjs"
     }
   },
   "scripts": {
     "dev": "npm run test:schema -- -w",
     "test": "npm run test:ci -- && npm run test:schema",
     "test:ci": "npm run coverage:unit && npm run report -- -r lcov",
-    "test:all": "npm run test:unit && npm run test:schema",
+    "test:all": "npm run coverage:all && npm run report -- -r html",
     "test:run": "_mocha --exit --colors --recursive --parallel --loader=testdouble --watch-files 'tests/**' --watch-files 'src/**' --watch-extensions js,json -bR spec",
     "test:unit": "npm run test:run tests/unit --",
     "test:schema": "npm run test:run tests/schema --",
-    "test:coverage": "npm run coverage:all && npm run report -- -r html",
     "test:integration": "npm run test:run tests/integration --",
     "coverage": "c8 --reporter=lcov -x '**/tests/**' -x '**/*.spec.mjs'",
     "coverage:all": "npm run coverage -- npm run test:all",
@@ -59,8 +55,7 @@
       "**/*.{cjs,mjs}.js:{filename}"
     ],
     "bundle": [
-      "**/main.*.js",
-      "**/shared.js",
+      "**/main*.js",
       "**/app.js"
     ],
     "external": [
